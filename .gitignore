@@ -1,0 +1,32 @@
+# Virtual Environment
+venv/
+.venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Large files
+models/
+
+# Vector store database
+chroma/
+db/
+
+# IDE and OS files
+.vscode/
+.idea/
+.DS_Store
+
+
+# Jupyter and Colab
+.ipynb_checkpoints/
+
+# Data and artifacts
+data/
+datasets/
+*.csv
+*.tsv
+*.xlsx
+*.pdf
+*.docx
