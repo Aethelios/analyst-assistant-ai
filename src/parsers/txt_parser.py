@@ -1,4 +1,3 @@
-# src/parsers/txt_parser.py
 def parse_txt(file_path: str) -> str:
     """Reads content from a TXT file."""
     try:

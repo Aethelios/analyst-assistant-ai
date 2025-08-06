@@ -1,5 +1,4 @@
-# src/parsers/pdf_parser.py
-import fitz  # PyMuPDF
+import fitz 
 
 def parse_pdf(file_path: str) -> str:
     """Extracts text content from a PDF file."""

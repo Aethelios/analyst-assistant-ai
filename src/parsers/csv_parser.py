@@ -1,4 +1,3 @@
-# src/parsers/csv_parser.py
 import pandas as pd
 
 def parse_csv(file_path: str) -> str:

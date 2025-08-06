@@ -1,4 +1,3 @@
-# src/parsers/docx_parser.py
 import docx
 
 def parse_docx(file_path: str) -> str:

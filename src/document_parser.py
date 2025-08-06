@@ -1,11 +1,11 @@
-# src/document_parser.py
+
 import os
 from .parsers.pdf_parser import parse_pdf
 from .parsers.docx_parser import parse_docx
 from .parsers.txt_parser import parse_txt
 from .parsers.csv_parser import parse_csv
 
-# Dictionary mapping file extensions to parser functions
+
 PARSER_MAPPING = {
     '.pdf': parse_pdf,
     '.docx': parse_docx,
