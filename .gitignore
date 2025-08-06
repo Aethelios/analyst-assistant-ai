@@ -30,3 +30,8 @@ datasets/
 *.xlsx
 *.pdf
 *.docx
+
+# Vector stores
+chroma/
+chroma_db/
+*.sqlite
