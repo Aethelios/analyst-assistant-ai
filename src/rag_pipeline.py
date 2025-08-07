@@ -2,6 +2,7 @@ import chromadb
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain.prompts import PromptTemplate
 from ctransformers import AutoModelForCausalLM
+from src.charting_schema import CHART_JSON_SCHEMA, EXAMPLE_JSON_OUTPUT
 
 # --- CONFIGURATION ---
 CHROMA_DB_PATH = "chroma_db"
@@ -49,6 +50,29 @@ You are a helpful AI analyst. Based on the user's original question and the answ
 ### Suggested Follow-up Questions:
 """
 
+ADVANCED_QA_PROMPT_TEMPLATE = f"""
+### Instruction:
+You are an expert data analyst AI. Your task is to answer the user's question based *only* on the provided context.
+
+You have two ways to answer:
+1.  **Text Answer:** If the question is not about comparing or visualizing data (e.g., "Who is John Doe?"), provide a clear, concise text-based answer.
+2.  **Chart Answer:** If the question requires visualizing or comparing data (e.g., "What are the sales per region?", "Compare prices"), you MUST respond with ONLY a JSON object that conforms to the following schema. Do not provide any extra text, explanation, or commentary before or after the JSON object.
+
+### Chart JSON Schema:
+{CHART_JSON_SCHEMA}
+
+### Example of a perfect Chart JSON output:
+{EXAMPLE_JSON_OUTPUT}
+
+### Context from Document:
+{{{{context}}}}
+
+### User's Question:
+{{{{question}}}}
+
+### Answer:
+"""
+
 class RAGPipeline:
     def __init__(self):
         self.db_client = None
@@ -69,7 +93,7 @@ class RAGPipeline:
                 model_kwargs={'device': 'cpu'} # Use 'cuda' if you have a GPU
             )
             print("Loading local LLM...")
-
+            
             self.llm = AutoModelForCausalLM.from_pretrained(
                 LLM_MODEL_PATH,
                 #model_type="mistral",
@@ -90,7 +114,10 @@ class RAGPipeline:
                 template=NEXT_STEPS_PROMPT_TEMPLATE,
                 input_variables=['question', 'answer']
             )
-
+            self.prompt = PromptTemplate(
+                template=ADVANCED_QA_PROMPT_TEMPLATE,
+                input_variables=['context', 'question']
+            )
             print("RAG components initialized.")
 
     def retrieve_chunks(self, query: str, top_k: int = 5):
